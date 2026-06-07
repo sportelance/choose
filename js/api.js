@@ -1,10 +1,10 @@
-import { DynamoDBClient } from 'https://esm.sh/@aws-sdk/client-dynamodb@3';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   PutCommand,
   QueryCommand,
   ScanCommand,
-} from 'https://esm.sh/@aws-sdk/lib-dynamodb@3';
+} from '@aws-sdk/lib-dynamodb';
 import { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DYNAMO_TABLE } from './config.js';
 
 const client = new DynamoDBClient({

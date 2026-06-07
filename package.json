@@ -4,13 +4,19 @@
   "description": "A party voting web app where guests rate drinks",
   "type": "module",
   "scripts": {
-    "dev": "npx live-server .",
+    "dev": "vite",
+    "build": "vite build",
     "build:css": "sass scss/main.scss css/main.css --style=compressed",
     "watch:css": "sass --watch scss/main.scss:css/main.css",
     "test": "node --test"
   },
   "devDependencies": {
+    "live-server": "^1.2.2",
     "sass": "^1.70.0",
-    "live-server": "^1.2.2"
+    "vite": "^8.0.16"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1063.0",
+    "@aws-sdk/lib-dynamodb": "^3.1063.0"
   }
 }

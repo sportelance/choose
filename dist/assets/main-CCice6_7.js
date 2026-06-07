@@ -1,0 +1,1 @@
+import"./main-Bw8cdbzl.js";document.getElementById(`entry-form`).addEventListener(`submit`,e=>{e.preventDefault();let t=document.getElementById(`name`).value.trim();if(!t){alert(`Please enter your name`);return}sessionStorage.setItem(`voterName`,t),window.location.href=`vote.html`});
