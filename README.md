@@ -5,9 +5,10 @@ A party voting web app where guests rate drinks across four categories (rum, gin
 ## Tech Stack
 
 - **Frontend**: GitHub Pages (HTML, SCSS, vanilla JavaScript)
-- **Backend**: Railway (Node.js, Express)
-- **Database**: AWS DynamoDB
+- **Database**: AWS DynamoDB (accessed directly from browser via AWS SDK v3)
 - **CI/CD**: GitHub Actions
+
+**Note**: This is a serverless architecture. The frontend calls DynamoDB directly from the browser using AWS SDK v3. AWS credentials are injected via GitHub Actions secrets during deployment, which keeps them out of the repo. Do not use this pattern for apps with real user data.
 
 ## Setup Instructions
 
@@ -21,81 +22,77 @@ A party voting web app where guests rate drinks across four categories (rum, gin
 3. Create IAM user `drink-vote-api` with policy:
    ```json
    {
-     "Effect": "Allow",
-     "Action": [
-       "dynamodb:PutItem",
-       "dynamodb:Query",
-       "dynamodb:Scan"
-     ],
-     "Resource": "arn:aws:dynamodb:us-east-1:*:table/DrinkVotes"
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": [
+           "dynamodb:PutItem",
+           "dynamodb:Query",
+           "dynamodb:Scan"
+         ],
+         "Resource": "arn:aws:dynamodb:us-east-1:YOUR_ACCOUNT_ID:table/DrinkVotes",
+         "Condition": {
+           "ForAllValues:StringLike": {
+             "dynamodb:LeadingKeys": ["DRINK#*"]
+           }
+         }
+       }
+     ]
    }
    ```
+   The `Condition` block ensures the key can only touch items whose partition key starts with `DRINK#`.
 4. Generate access keys
 
-### 2. Railway Setup
+### 2. GitHub Secrets Setup
 
-1. Create Railway account → New Project → Deploy from GitHub repo
-2. Set root directory to `backend/`
-3. Add environment variables in Railway dashboard:
-   - `AWS_REGION=us-east-1`
-   - `AWS_ACCESS_KEY_ID=<your-key>`
-   - `AWS_SECRET_ACCESS_KEY=<your-secret>`
-   - `DYNAMO_TABLE=DrinkVotes`
-   - `PORT=3000`
-   - `CORS_ORIGIN=https://<your-username>.github.io`
-4. Copy the generated Railway domain (e.g. `https://drink-vote.railway.app`)
+1. Go to repo Settings → Secrets and variables → Actions
+2. Add the following secrets:
+   - `AWS_REGION`: `us-east-1`
+   - `AWS_ACCESS_KEY_ID`: Your AWS access key ID
+   - `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key
 
-### 3. Frontend Configuration
+### 3. Add Drink Photos
 
-1. Update `frontend/js/config.js`:
-   ```js
-   export const API_BASE = 'https://your-app.railway.app';
-   ```
-
-### 4. Add Drink Photos
-
-Add drink photos to `frontend/assets/drinks/`:
+Add drink photos to `assets/drinks/`:
 - Recommended: 800×600px, JPEG, <200KB each
 - Name files to match config.js IDs: `rum-1.jpg`, `gin-1.jpg`, etc.
 - Free sources: Unsplash, Pexels
 
-### 5. GitHub Pages Setup
+### 4. GitHub Pages Setup
 
 1. Go to repo Settings → Pages
 2. Set Source to **GitHub Actions**
 3. Push to main branch to trigger deployment
 
-### 6. GitHub Actions Setup
-
-1. Add `RAILWAY_TOKEN` to repo secrets (get from Railway dashboard)
-2. Update `.github/workflows/deploy-backend.yml` with your Railway service ID
-
 ## Local Development
 
+For local development, you'll need to temporarily add your AWS credentials to `js/config.js`:
+
 ```bash
-# Frontend
-cd frontend
-npx live-server .
-
-# Compile SCSS
-sass --watch frontend/scss/main.scss:frontend/css/main.css
-
-# Backend
-cd backend
-cp .env.example .env  # fill in real AWS creds
+# Install dependencies
 npm install
+
+# Temporarily edit js/config.js to add your real AWS credentials
+# (replace the __AWS_*__ placeholders)
+
+# Start dev server
 npm run dev
+
+# Compile SCSS (in another terminal)
+npm run watch:css
 ```
+
+**Important**: After local development, revert `js/config.js` to use the placeholders before committing.
 
 ## Usage
 
-1. Share the frontend URL: `https://<username>.github.io/drink-vote/`
-2. Share the admin URL: `https://<username>.github.io/drink-vote/admin.html`
+1. Share the frontend URL: `https://<username>.github.io/<repo-name>/`
+2. Share the admin URL: `https://<username>.github.io/<repo-name>/admin.html`
 
 ## Cost
 
 All services used are on free tier:
 - DynamoDB: $0 (free tier covers usage)
 - GitHub Pages: $0
-- Railway: $0 (free credit/month)
 - GitHub Actions: $0 (within free minutes)

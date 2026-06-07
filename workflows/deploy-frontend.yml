@@ -1,11 +1,9 @@
-name: Deploy Frontend to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'frontend/**'
 
 permissions:
   contents: read
@@ -24,16 +22,33 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Sass
-        run: npm install -g sass
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Inject AWS credentials
+        run: |
+          sed -i "s/__AWS_REGION__/${{ secrets.AWS_REGION }}/g" js/config.js
+          sed -i "s/__AWS_ACCESS_KEY_ID__/${{ secrets.AWS_ACCESS_KEY_ID }}/g" js/config.js
+          sed -i "s/__AWS_SECRET_ACCESS_KEY__/${{ secrets.AWS_SECRET_ACCESS_KEY }}/g" js/config.js
 
       - name: Compile SCSS
-        run: sass frontend/scss/main.scss frontend/css/main.css --style=compressed
+        run: npm run build:css
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: frontend/
+          path: ./
+          exclude: |
+            workflows/**
+            test/**
+            node_modules/**
+            scss/**
+            package.json
+            package-lock.json
+            .gitignore
+            README.md
+            LICENSE
+            *.md
 
       - name: Deploy to GitHub Pages
         id: deployment

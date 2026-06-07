@@ -1,4 +1,8 @@
-export const API_BASE = import.meta.env?.VITE_API_URL ?? 'https://your-app.railway.app';
+// AWS — injected by GitHub Actions during build
+export const AWS_REGION        = 'us-east-1';
+export const AWS_ACCESS_KEY_ID = '__AWS_ACCESS_KEY_ID__';
+export const AWS_SECRET_ACCESS_KEY = '__AWS_SECRET_ACCESS_KEY__';
+export const DYNAMO_TABLE      = 'DrinkVotes';
 
 export const DRINKS = [
   {

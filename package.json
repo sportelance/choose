@@ -1,0 +1,16 @@
+{
+  "name": "drink-vote",
+  "version": "1.0.0",
+  "description": "A party voting web app where guests rate drinks",
+  "type": "module",
+  "scripts": {
+    "dev": "npx live-server .",
+    "build:css": "sass scss/main.scss css/main.css --style=compressed",
+    "watch:css": "sass --watch scss/main.scss:css/main.css",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "sass": "^1.70.0",
+    "live-server": "^1.2.2"
+  }
+}
