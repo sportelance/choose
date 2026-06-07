@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .drink-card {
   background-color: $color-surface;
   border-radius: $radius-lg;
