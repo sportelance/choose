@@ -1,0 +1,120 @@
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-sm $space-lg;
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: $radius-md;
+  transition: all 0.2s ease;
+  
+  &--primary {
+    background-color: $color-accent;
+    color: white;
+    
+    &:hover {
+      background-color: darken($color-accent, 10%);
+      transform: translateY(-2px);
+    }
+  }
+  
+  &--secondary {
+    background-color: $color-surface;
+    color: $color-text;
+    border: 1px solid $color-border;
+    
+    &:hover {
+      background-color: darken($color-surface, 5%);
+    }
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// Inputs
+.input {
+  width: 100%;
+  padding: $space-sm $space-md;
+  font-family: $font-body;
+  font-size: 1rem;
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  color: $color-text;
+  transition: border-color 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-accent;
+  }
+  
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}
+
+.textarea {
+  @extend .input;
+  resize: vertical;
+  min-height: 80px;
+}
+
+// Toast
+.toast {
+  position: fixed;
+  bottom: $space-lg;
+  right: $space-lg;
+  padding: $space-md $space-lg;
+  background-color: $color-surface;
+  border-left: 4px solid $color-accent;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  
+  &--success {
+    border-left-color: #4caf50;
+  }
+  
+  &--error {
+    border-left-color: #f44336;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Stars
+.stars {
+  display: inline-flex;
+  gap: $space-xs;
+  
+  &__star {
+    font-size: 1.5rem;
+    color: $color-border;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    
+    &--filled {
+      color: $color-star;
+    }
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.admin-page {
+  .refresh-indicator {
+    position: fixed;
+    top: $space-md;
+    right: $space-md;
+    padding: $space-sm $space-md;
+    background-color: $color-surface;
+    border-radius: $radius-md;
+    box-shadow: $shadow-md;
+    font-size: 0.85rem;
+    color: $color-text-muted;
+    
+    &--active {
+      color: $color-accent;
+    }
+  }
+  
+  .last-updated {
+    text-align: center;
+    font-size: 0.85rem;
+    color: $color-text-muted;
+    margin-top: $space-lg;
+  }
+}

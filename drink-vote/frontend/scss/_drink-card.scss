@@ -1,0 +1,125 @@
+.drink-card {
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+  
+  &__photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: $color-border;
+  }
+  
+  &__content {
+    padding: $space-md;
+  }
+  
+  &__name {
+    font-family: $font-display;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: $space-sm;
+  }
+  
+  &__description {
+    font-size: 0.9rem;
+    color: $color-text-muted;
+    margin-bottom: $space-sm;
+  }
+  
+  &__ingredients {
+    font-size: 0.85rem;
+    color: $color-text-muted;
+    margin-bottom: $space-md;
+    
+    &::before {
+      content: 'Ingredients: ';
+      font-weight: 600;
+    }
+  }
+  
+  &__rating {
+    margin-bottom: $space-sm;
+  }
+  
+  &__comment {
+    margin-bottom: $space-md;
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $space-sm;
+  }
+  
+  &__btn {
+    flex: 1;
+  }
+  
+  &--admin {
+    pointer-events: none;
+    
+    .drink-card__actions {
+      display: none;
+    }
+  }
+  
+  &__admin-stats {
+    padding: $space-md;
+    background-color: rgba($color-accent, 0.1);
+    border-top: 1px solid $color-border;
+    
+    &__average {
+      display: flex;
+      align-items: center;
+      gap: $space-sm;
+      margin-bottom: $space-sm;
+      font-weight: 600;
+    }
+    
+    &__breakdown {
+      display: flex;
+      gap: $space-xs;
+      margin-bottom: $space-sm;
+      
+      &__bar {
+        flex: 1;
+        height: 8px;
+        background-color: $color-border;
+        border-radius: $radius-sm;
+        overflow: hidden;
+        
+        &__fill {
+          height: 100%;
+          background-color: $color-star;
+          transition: width 0.3s ease;
+        }
+      }
+    }
+    
+    &__comments {
+      font-size: 0.85rem;
+      color: $color-text-muted;
+      
+      &__item {
+        padding: $space-xs 0;
+        border-bottom: 1px solid rgba($color-border, 0.5);
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        &__author {
+          font-weight: 600;
+          color: $color-text;
+        }
+      }
+    }
+  }
+}
