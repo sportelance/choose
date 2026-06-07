@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import stdLibBrowser from 'node-stdlib-browser';
 
 export default defineConfig({
   base: './',
@@ -12,6 +13,9 @@ export default defineConfig({
         drink: resolve(__dirname, 'drink.html'),
         admin: resolve(__dirname, 'admin.html'),
       },
+      output: {
+        manualChunks: undefined,
+      },
     },
   },
   server: {
@@ -19,5 +23,11 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@aws-sdk/client-dynamodb', '@aws-sdk/lib-dynamodb'],
+  },
+  resolve: {
+    alias: stdLibBrowser,
+  },
+  define: {
+    global: 'globalThis',
   },
 });
