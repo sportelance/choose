@@ -16,4 +16,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  optimizeDeps: {
+    include: ['@aws-sdk/client-dynamodb', '@aws-sdk/lib-dynamodb'],
+  },
 });
