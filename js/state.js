@@ -18,7 +18,7 @@ const state = {
   },
   
   hasVoted(drinkId) {
-    return this.votes[drinkId] && this.votes[drinkId].rating > 0;
+    return !!(this.votes[drinkId] && this.votes[drinkId].rating > 0);
   },
 };
 
