@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "build:css": "sass scss/main.scss css/main.css --style=compressed",
     "watch:css": "sass --watch scss/main.scss:css/main.css",
     "test": "node --test"

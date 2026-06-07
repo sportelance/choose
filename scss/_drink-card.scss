@@ -6,6 +6,7 @@
   overflow: hidden;
   box-shadow: $shadow-md;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
   
   &:hover {
     transform: translateY(-4px);
@@ -51,13 +52,9 @@
     margin-bottom: $space-sm;
   }
   
-  &__comment {
-    margin-bottom: $space-md;
-  }
-  
+  &__comment,
   &__actions {
-    display: flex;
-    gap: $space-sm;
+    display: none;
   }
   
   &__btn {

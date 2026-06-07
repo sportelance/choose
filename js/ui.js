@@ -31,7 +31,7 @@ function renderStars(rating, interactive = false, onRatingChange = null) {
   return container;
 }
 
-function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = null) {
+function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = null, onCardClick = null) {
   const card = document.createElement('div');
   card.className = `drink-card ${interactive ? '' : 'drink-card--admin'}`;
   
@@ -67,7 +67,7 @@ function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = 
     const stars = renderStars(currentVote.rating || 0, true, (newRating) => {
       ratingContainer.innerHTML = '';
       ratingContainer.appendChild(renderStars(newRating, true, onRatingChange));
-      if (onVoteSubmit) onVoteSubmit(drink.id, newRating, commentInput.value);
+      if (onCardClick) onCardClick(drink.id, newRating, currentVote.comment || '');
     });
     
     let onRatingChange = (newRating) => {
@@ -78,28 +78,13 @@ function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = 
     ratingContainer.appendChild(stars);
     content.appendChild(ratingContainer);
     
-    const commentContainer = document.createElement('div');
-    commentContainer.className = 'drink-card__comment';
-    
-    const commentInput = document.createElement('textarea');
-    commentInput.className = 'textarea';
-    commentInput.placeholder = 'Add a comment (optional)...';
-    commentInput.value = currentVote.comment || '';
-    commentContainer.appendChild(commentInput);
-    content.appendChild(commentContainer);
-    
-    const actions = document.createElement('div');
-    actions.className = 'drink-card__actions';
-    
-    const submitBtn = document.createElement('button');
-    submitBtn.className = 'btn btn--primary drink-card__btn';
-    submitBtn.textContent = 'Submit this drink';
-    submitBtn.addEventListener('click', () => {
-      const rating = ratingContainer.querySelector('.stars__star--filled')?.length || 0;
-      if (onVoteSubmit) onVoteSubmit(drink.id, rating, commentInput.value);
+    // Add click handler to open modal (but not when clicking on stars)
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.stars')) {
+        return;
+      }
+      if (onCardClick) onCardClick(drink.id, currentVote.rating || 0, currentVote.comment || '');
     });
-    actions.appendChild(submitBtn);
-    content.appendChild(actions);
   }
   
   card.appendChild(photo);

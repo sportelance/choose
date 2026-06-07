@@ -143,6 +143,11 @@
     width: 90%;
     box-shadow: $shadow-lg;
     animation: slideUp 0.3s ease;
+    position: relative;
+    
+    &--drink {
+      max-width: 500px;
+    }
     
     h2 {
       margin: 0 0 $space-md 0;
@@ -159,6 +164,29 @@
       strong {
         color: $color-accent;
       }
+    }
+  }
+  
+  &-close {
+    position: absolute;
+    top: $space-md;
+    left: $space-md;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $color-accent;
     }
   }
   
