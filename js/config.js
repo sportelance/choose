@@ -19,7 +19,7 @@ export const DRINKS = [
     name: 'RedMercedes',
     photo: 'assets/drinks/rum-2.jpg',
     description: 'Trunk so big it could fit my reverend',
-    ingredients: ['.75oz dark rum', '.75oz Gin', '.75 oz ginger liqueur', '.75 oz lime juice'],
+    ingredients: ['.75oz jamaican rum', '.75oz Gin', '.75 oz ginger liqueur', '.75 oz lime juice'],
   },
   {
     id: 'rum-3',
