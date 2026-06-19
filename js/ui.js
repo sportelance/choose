@@ -64,16 +64,13 @@ function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = 
     const ratingContainer = document.createElement('div');
     ratingContainer.className = 'drink-card__rating';
     
-    const stars = renderStars(currentVote.rating || 0, true, (newRating) => {
-      ratingContainer.innerHTML = '';
-      ratingContainer.appendChild(renderStars(newRating, true, onRatingChange));
-      if (onCardClick) onCardClick(drink.id, newRating, currentVote.comment || '');
-    });
-    
     let onRatingChange = (newRating) => {
       ratingContainer.innerHTML = '';
       ratingContainer.appendChild(renderStars(newRating, true, onRatingChange));
+      if (onVoteSubmit) onVoteSubmit(drink.id, newRating, currentVote.comment || '');
     };
+    
+    const stars = renderStars(currentVote.rating || 0, true, onRatingChange);
     
     ratingContainer.appendChild(stars);
     content.appendChild(ratingContainer);

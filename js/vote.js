@@ -37,11 +37,14 @@ function openModal(drink) {
   
   // Render stars in modal
   const ratingContainer = document.getElementById('modal-rating');
-  ratingContainer.appendChild(renderStars(currentRating, true, (newRating) => {
+
+  function onRatingSelect(newRating) {
     currentRating = newRating;
     ratingContainer.innerHTML = '';
-    ratingContainer.appendChild(renderStars(newRating, true, arguments.callee));
-  }));
+    ratingContainer.appendChild(renderStars(newRating, true, onRatingSelect));
+  }
+
+  ratingContainer.appendChild(renderStars(currentRating, true, onRatingSelect));
   
   // Set up submit button
   const submitBtn = document.getElementById('modal-submit');
@@ -117,13 +120,19 @@ function renderAllCards() {
     
     categoryDrinks.forEach((drink) => {
       const currentVote = state.getVote(drink.id);
-      const card = renderCard(drink, currentVote, true, null, handleCardClick);
+      const card = renderCard(drink, currentVote, true, handleStarClick, handleCardClick);
       grid.appendChild(card);
     });
     
     section.appendChild(grid);
     container.appendChild(section);
   });
+}
+
+// Handle star click to update state
+function handleStarClick(drinkId, rating, comment) {
+  state.setVote(drinkId, rating, comment);
+  updateSubmitButton();
 }
 
 // Handle card click to open modal
