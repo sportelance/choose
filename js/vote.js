@@ -1,5 +1,5 @@
 import { DRINKS, CATEGORIES } from './config.js';
-import { submitVote, submitBatch } from './api.js';
+import { submitVote, submitBatch, getVotes } from './api.js';
 import state from './state.js';
 import { renderCard, renderStars, showToast } from './ui.js';
 
@@ -80,8 +80,6 @@ async function handleModalSubmit() {
     showToast('Vote submitted!');
     closeModal();
     updateSubmitButton();
-    
-    // Update the card to show the new rating
     renderAllCards();
   } catch (error) {
     console.error(error);
@@ -92,14 +90,11 @@ async function handleModalSubmit() {
 // Modal event listeners
 modalCloseBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    closeModal();
-  }
+  if (e.target === modal) closeModal();
 });
 
 // Render all categories and drinks
 function renderAllCards() {
-  // Clear existing content
   const existingSections = container.querySelectorAll('section');
   existingSections.forEach(section => section.remove());
   
@@ -129,21 +124,16 @@ function renderAllCards() {
   });
 }
 
-// Handle star click to update state
 function handleStarClick(drinkId, rating, comment) {
   state.setVote(drinkId, rating, comment);
   updateSubmitButton();
 }
 
-// Handle card click to open modal
-function handleCardClick(drinkId, rating, comment) {
+function handleCardClick(drinkId) {
   const drink = DRINKS.find((d) => d.id === drinkId);
-  if (drink) {
-    openModal(drink);
-  }
+  if (drink) openModal(drink);
 }
 
-// Handle batch vote submission
 submitAllBtn.addEventListener('click', async () => {
   const votes = state.getAllVotes();
   const voteArray = Object.entries(votes).map(([drinkId, data]) => ({
@@ -166,7 +156,6 @@ submitAllBtn.addEventListener('click', async () => {
   try {
     submitAllBtn.disabled = true;
     submitAllBtn.textContent = 'Submitting...';
-    
     const result = await submitBatch(voterName, voteArray);
     showToast(`Saved ${result.saved} votes!`);
     submitAllBtn.textContent = 'Update Votes';
@@ -184,5 +173,27 @@ function updateSubmitButton() {
   submitAllBtn.textContent = hasVotes ? 'Update Votes' : 'Submit All Votes';
 }
 
-// Initial render
-renderAllCards();
+// Fetch this voter's existing votes from DynamoDB and hydrate state,
+// then render cards so stars reflect saved ratings on reload
+async function loadExistingVotes() {
+  await Promise.all(
+    DRINKS.map(async (drink) => {
+      try {
+        const { votes } = await getVotes(drink.id);
+        const mine = votes.find(v => v.voterName === voterName);
+        if (mine) state.setVote(drink.id, mine.rating, mine.comment);
+      } catch (e) {
+        console.warn('Could not load vote for', drink.id, e);
+      }
+    })
+  );
+}
+
+// Init — load saved votes first, then render so cards show correct stars
+async function init() {
+  await loadExistingVotes();
+  renderAllCards();
+  updateSubmitButton();
+}
+
+init();
