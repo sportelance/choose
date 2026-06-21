@@ -35,12 +35,6 @@ function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = 
   const card = document.createElement('div');
   card.className = `drink-card ${interactive ? '' : 'drink-card--admin'}`;
   
-  const photo = document.createElement('img');
-  photo.className = 'drink-card__photo';
-  photo.src = drink.photo;
-  photo.alt = drink.name;
-  photo.onerror = () => { photo.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200"%3E%3Crect fill="%2316213e" width="300" height="200"/%3E%3Ctext fill="%23eaeaea" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Photo%3C/text%3E%3C/svg%3E'; };
-  
   const content = document.createElement('div');
   content.className = 'drink-card__content';
   
@@ -84,7 +78,6 @@ function renderCard(drink, currentVote = {}, interactive = true, onVoteSubmit = 
     });
   }
   
-  card.appendChild(photo);
   card.appendChild(content);
   
   return card;

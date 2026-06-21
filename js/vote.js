@@ -29,7 +29,6 @@ function openModal(drink) {
   currentComment = currentVote.comment || '';
   
   modalBody.innerHTML = `
-    <img src="${drink.photo}" alt="${drink.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22%3E%3Crect fill=%22%2316213e%22 width=%22300%22 height=%22200%22/%3E%3Ctext fill=%22%23eaeaea%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3ENo Photo%3C/text%3E%3C/svg%3E';">
     <h2 style="font-family: 'Playfair Display', serif; margin: 0 0 0.5rem 0; color: #eaeaea;">${drink.name}</h2>
     <p style="color: #a0a0a0; margin: 0 0 1rem 0;">${drink.description}</p>
     <p style="color: #a0a0a0; margin: 0 0 1.5rem 0; font-size: 0.9rem;"><strong>Ingredients:</strong> ${drink.ingredients.join(' · ')}</p>
