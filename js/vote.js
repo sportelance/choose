@@ -13,6 +13,9 @@ const submitAllBtn = document.getElementById('submit-all');
 const modal = document.getElementById('drink-modal');
 const modalCloseBtn = document.getElementById('modal-close');
 const modalBody = document.getElementById('modal-body');
+const ratingSuggestionsBtn = document.getElementById('rating-suggestions-btn');
+const ratingSuggestionsModal = document.getElementById('rating-suggestions-modal');
+const ratingSuggestionsCloseBtn = document.getElementById('rating-suggestions-close');
 
 let currentDrink = null;
 let currentRating = 0;
@@ -91,6 +94,21 @@ async function handleModalSubmit() {
 modalCloseBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => {
   if (e.target === modal) closeModal();
+});
+
+// Rating suggestions modal event listeners
+ratingSuggestionsBtn.addEventListener('click', () => {
+  ratingSuggestionsModal.style.display = 'flex';
+});
+
+ratingSuggestionsCloseBtn.addEventListener('click', () => {
+  ratingSuggestionsModal.style.display = 'none';
+});
+
+ratingSuggestionsModal.addEventListener('click', (e) => {
+  if (e.target === ratingSuggestionsModal) {
+    ratingSuggestionsModal.style.display = 'none';
+  }
 });
 
 // Render all categories and drinks
